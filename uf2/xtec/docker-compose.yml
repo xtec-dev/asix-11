@@ -32,7 +32,9 @@ services:
     networks:
       xtec_hub:
     ports:
+      - "80:80"
       - "3000:3000"
+      - "8080:8080"
       - "10000:10000"
     volumes:
       - ./envoy.yaml:/etc/envoy/envoy.yaml
