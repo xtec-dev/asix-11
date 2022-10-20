@@ -5,7 +5,8 @@ config=/etc/suricata/suricata.yaml
 custom() {
     sudo rm /var/lib/suricata/rules/local.rules
     echo '
-alert ssh any any -> any any (msg: "SSH connection found"; flow:to_server, not_established; sid:2000001; rev:1;)
+alert ssh any any -> any any (msg: "SSH conne
+ction found"; flow:to_server, not_established; sid:2000001; rev:1;)
 alert icmp any any -> any any (msg: "ICMP Packet found"; sid:2000002; rev:1;)
 ' | sudo tee -a /var/lib/suricata/rules/local.rules > /dev/null
     sudo kill -usr2 $(pidof suricata)
