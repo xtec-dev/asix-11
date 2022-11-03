@@ -1,4 +1,4 @@
 #!/bin/bash
 
 shopt -s extglob
-rm -rf !(test.sh|uf*)
+rm -rf !(test.sh|uf*|README.md)
