@@ -7,9 +7,7 @@ rules() {
         echo 'alert ssh any any -> any any (msg: "SSH connection found"; flow:to_server, not_established; sid:2000001; rev:1;)
 alert icmp any any -> any any (msg: "ICMP Packet found"; sid:2000002; rev:1;)
 ' > local.rules
-        exit
     }
-    exit
     sudo cp local.rules /var/lib/suricata/rules/local.rules
     sudo kill -usr2 $(pidof suricata)
     sudo suricata -T -c /etc/suricata/suricata.yaml -v
