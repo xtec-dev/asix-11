@@ -73,6 +73,6 @@ load)
     load
     ;;
 *)
-    echo "$0 install | reload | log"
+    echo "$0 install | load | log"
     ;;
 esac
