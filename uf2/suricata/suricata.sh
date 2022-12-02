@@ -2,12 +2,20 @@
 
 config=/etc/suricata/suricata.yaml
 
-rules() {
+load() {
+
+    if grep -q "local.rules" $config; then
+        :
+    else
+        sudo sed -i 's/- suricata.rules/- local.rules/g' $config
+    fi
+
     ! test -f local.rules && {
         echo 'alert ssh any any -> any any (msg: "SSH connection found"; flow:to_server, not_established; sid:2000001; rev:1;)
 alert icmp any any -> any any (msg: "ICMP Packet found"; sid:2000002; rev:1;)
 ' > local.rules
     }
+    sudo mkdir -p /var/lib/suricata/rules
     sudo cp local.rules /var/lib/suricata/rules/local.rules
     sudo kill -usr2 $(pidof suricata)
     sudo suricata -T -c /etc/suricata/suricata.yaml -v
@@ -42,7 +50,7 @@ detect-engine:
     fi
 
     ## TODO test file exists
-    sudo suricata-update
+    #sudo suricata-update
 
     ## TODO
     # App-Layer protocol rdp enable status not set, so enabling by default. This behavior will change in Suricata 7, so please update your config. See ticket #4744 for more details.
@@ -55,16 +63,16 @@ log() {
 
 
 case $1 in
-rules)
-    rules
-    ;;
 install)
     install
     ;;
 log)
     log
     ;;
+load)
+    load
+    ;;
 *)
-    echo "$0 install"
+    echo "$0 install | reload | log"
     ;;
 esac
